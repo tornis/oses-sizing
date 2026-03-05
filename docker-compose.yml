@@ -7,7 +7,7 @@ services:
       dockerfile: Dockerfile
     container_name: oses-sizing-app
     ports:
-      - "3000:3000"
+      - "82:3000"
     volumes:
       # Persist SQLite database
       - ./data:/app/data
