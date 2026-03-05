@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { WizardState } from "@/context/WizardContext";
 import { generateMermaidDiagram } from "@/utils/mermaidGenerator";
@@ -8,7 +8,7 @@ import { useLanguage } from "@/context/LanguageContext";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 
-export default function ArchitecturePage() {
+function ArchitectureContent() {
     const searchParams = useSearchParams();
     const { t } = useLanguage();
     const mermaidRef = useRef<HTMLDivElement>(null);
@@ -89,5 +89,17 @@ export default function ArchitecturePage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function ArchitecturePage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center bg-white dark:bg-background">
+                <p className="text-lg text-slate-500">Loading...</p>
+            </div>
+        }>
+            <ArchitectureContent />
+        </Suspense>
     );
 }
