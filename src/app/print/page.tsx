@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { WizardState } from "@/context/WizardContext";
 import { calculateClusterSizing } from "@/utils/calculations";
@@ -8,7 +8,7 @@ import { Server, Database, MemoryStick, HardDrive } from "lucide-react";
 import Image from "next/image";
 import { useLanguage } from "@/context/LanguageContext";
 
-export default function PrintPage() {
+function PrintContent() {
     const searchParams = useSearchParams();
     const { t } = useLanguage();
     
@@ -289,5 +289,17 @@ export default function PrintPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+export default function PrintPage() {
+    return (
+        <Suspense fallback={
+            <div className="min-h-screen flex items-center justify-center">
+                <p className="text-lg text-slate-500">Loading...</p>
+            </div>
+        }>
+            <PrintContent />
+        </Suspense>
     );
 }
